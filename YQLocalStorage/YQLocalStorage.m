@@ -65,6 +65,7 @@
     
     if (self.databasePath.length <= 0) {
         NSAssert(NO,@"YQLocalStorage : invailed database Path");
+        [NSException raise:@"invailed database Path" format:@"YQLocalStorage : invailed database Path"];
     }
     if (database != nil) {
         //already opened
@@ -218,6 +219,7 @@
         if (condition.length > 0) {
             sqlstring = [NSString stringWithFormat:@"delete from '%@' where %@",tableName,condition];
         }
+        
         [self doStorageAction:sqlstring block:^(BOOL successed, NSString * _Nullable reason) {
             dispatch_semaphore_signal(self.YQLSApiActionSemaphore);
             block ? block(successed,reason) : nil;
