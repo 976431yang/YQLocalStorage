@@ -26,9 +26,9 @@
     
     [self.DB checkOrCreatTableWithName:@"person"
                                   keys:@[@"name",@"age",@"sex",@"groupx",@"aaa",@"bbb"]
-                                 block:^(BOOL successed, NSString * _Nullable reason)
+                                 block:^(BOOL succeed, NSString * _Nullable reason)
     {
-        NSLog(@"check :: %d,%@",successed,reason);
+        NSLog(@"check :: %d,%@",succeed,reason);
     }];
     
     [self.DB insertObjectWithTableName:@"person"
@@ -37,16 +37,16 @@
                                          @"groupx":@"freak",
                                          @"sex":@"man"
                                          }
-                                 block:^(BOOL successed, NSString * _Nullable reason)
+                                 block:^(BOOL succeed, NSString * _Nullable reason)
     {
-        NSLog(@"first : %d,%@",successed,reason);
+        NSLog(@"first : %d,%@",succeed,reason);
     }];
 }
 
 -(void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
         //delete
-        [self.DB deleteObjectWithTableName:@"person" condition:nil block:^(BOOL successed, NSString * _Nullable reason) {
-            NSLog(@"delete : %d , %@",successed,reason);
+        [self.DB deleteObjectWithTableName:@"person" condition:nil block:^(BOOL succeed, NSString * _Nullable reason) {
+            NSLog(@"delete : %d , %@",succeed,reason);
         }];
         //insert
         for (int i=0; i<50; i++) {
@@ -57,23 +57,23 @@
                                                  @"groupx":@"freak",
                                                  @"sex":@"man"
                                                  }
-                                         block:^(BOOL successed, NSString * _Nullable reason) {
-                                             NSLog(@"block %d result : %d , %@",i,successed,reason);
+                                         block:^(BOOL succeed, NSString * _Nullable reason) {
+                                             NSLog(@"block %d result : %d , %@",i,succeed,reason);
                                          }];
         }
         //search
-        [self.DB searchStorageWithTableName:@"person" condition:nil Keys:nil block:^(BOOL successed, NSArray<YQLSSearchResultItem *> * _Nullable result) {
+        [self.DB searchStorageWithTableName:@"person" condition:nil Keys:nil block:^(BOOL succeed, NSArray<YQLSSearchResultItem *> * _Nullable result) {
             NSLog(@"search : %@",result);
         }];
     //update
-//    [self.DB searchStorageWithTableName:@"person" condition:nil Keys:nil block:^(BOOL successed, NSArray<YQLSSearchResultItem *> * _Nullable result) {
+//    [self.DB searchStorageWithTableName:@"person" condition:nil Keys:nil block:^(BOOL succeed, NSArray<YQLSSearchResultItem *> * _Nullable result) {
 //        NSLog(@"search : %@",result);
 //        for (int i=0;i<result.count ; i++) {
 //            YQLSSearchResultItem *item = result[i];
 //            NSMutableDictionary *dataDic = [NSMutableDictionary dictionaryWithDictionary:item.data];
 //            [dataDic setObject:@"freak22222" forKey:@"groupx"];
-//            [self.DB updateObjectWithTableName:@"person" objectID:item.ID data:dataDic block:^(BOOL successed, NSString * _Nullable reason) {
-//                NSLog(@"update finish %d : %d , %@",i,successed,reason);
+//            [self.DB updateObjectWithTableName:@"person" objectID:item.ID data:dataDic block:^(BOOL succeed, NSString * _Nullable reason) {
+//                NSLog(@"update finish %d : %d , %@",i,succeed,reason);
 //            }];
 //        }
 //    }];

@@ -15,7 +15,7 @@
 NS_ASSUME_NONNULL_BEGIN
 @interface YQLocalStorage : NSObject
 
-typedef void(^YQLSBoolBlock)(BOOL successed,NSString *_Nullable reason);
+typedef void(^YQLSBoolBlock)(BOOL succeed,NSString *_Nullable reason);
 
 /*
      path do not need docment path at front,
@@ -78,7 +78,7 @@ typedef void(^YQLSBoolBlock)(BOOL successed,NSString *_Nullable reason);
 - (void)searchStorageWithTableName:(NSString *)tableName
                          condition:(nullable NSString *)condition
                               Keys:(nullable NSArray<NSString *>*)keysArr
-                             block:(nullable void(^)(BOOL successed,NSArray<YQLSSearchResultItem *> *_Nullable result))block;
+                             block:(nullable void(^)(BOOL succeed,NSArray<YQLSSearchResultItem *> *_Nullable result))block;
 
 /*
      condition can be nil, like " age < 60 and name = 'Wilddog' "
@@ -86,7 +86,7 @@ typedef void(^YQLSBoolBlock)(BOOL successed,NSString *_Nullable reason);
  */
 - (void)countStorageWithTableName:(NSString *)tableName
                          condition:(nullable NSString *)condition
-                             block:(nullable void(^)(BOOL successed,NSUInteger count))block;
+                             block:(nullable void(^)(BOOL succeed,NSUInteger count))block;
 
 /*
      actionString just like sql string

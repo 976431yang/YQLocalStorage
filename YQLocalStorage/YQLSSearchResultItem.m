@@ -46,7 +46,7 @@
     [self reloadFromLSWithBlock:nil];
 }
 
-- (void)reloadFromLSWithBlock:(void(^)(BOOL successed,NSString *reason))block {
+- (void)reloadFromLSWithBlock:(void(^)(BOOL succeed,NSString *reason))block {
     if (!self.localStorage) {
         block ? block(NO,@"localStorage has been free") : nil;
     } else if (self.fromTable.length <= 0) {
@@ -55,9 +55,9 @@
         [self.localStorage searchStorageWithTableName:self.fromTable
                                             condition:[NSString stringWithFormat:@" id=%ld ",self.ID]
                                                  Keys:nil
-                                                block:^(BOOL successed, NSArray<YQLSSearchResultItem *> *result)
+                                                block:^(BOOL succeed, NSArray<YQLSSearchResultItem *> *result)
          {
-             if (!successed) {
+             if (!succeed) {
                  block ? block(NO,[NSString stringWithFormat:@"updateFail : %@",result]) : nil;
              } else if(result.count == 1) {
                  YQLSSearchResultItem *newItem = result[0];
@@ -78,7 +78,7 @@
     [self deleteMyselfWithBlock:nil];
 }
 
-- (void)deleteMyselfWithBlock:(void(^)(BOOL successed,NSString *reason))block {
+- (void)deleteMyselfWithBlock:(void(^)(BOOL succeed,NSString *reason))block {
     _data = nil;
     if (!self.localStorage) {
         block ? block(NO,@"localStorage has been free") : nil;
@@ -90,7 +90,7 @@
 }
 
 - (void)updateData:(NSDictionary<NSString *,NSString *> *)data
-         withBlock:(void(^)(BOOL successed,NSString *reason))block {
+         withBlock:(void(^)(BOOL succeed,NSString *reason))block {
     if (!self.localStorage) {
         block ? block(NO,@"localStorage has been free") : nil;
     } else if (self.fromTable.length <= 0) {
@@ -99,10 +99,10 @@
         [self.localStorage updateObjectWithTableName:self.fromTable
                                             objectID:self.ID
                                                 data:data
-                                               block:^(BOOL successed, NSString * _Nullable reason)
+                                               block:^(BOOL succeed, NSString * _Nullable reason)
          {
-             successed ? _data = data : nil;
-             block ? block(successed,reason) : nil;
+             succeed ? _data = data : nil;
+             block ? block(succeed,reason) : nil;
          }];
     }
 }

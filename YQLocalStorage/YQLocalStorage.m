@@ -136,29 +136,29 @@
         //check the table if is exactly as our wanted
         [weakSelf checkTableWithTableName:tableName
                               completeSql:checkString
-                                    block:^(BOOL successed, NSString * _Nullable reason)
+                                    block:^(BOOL succeed, NSString * _Nullable reason)
          {
-             if (successed) {
+             if (succeed) {
                  [self.keysDic setObject:keys forKey:tableName];
                  [self doStorageAction:creatString
-                                 block:^(BOOL successed,NSString * _Nullable reason)
+                                 block:^(BOOL succeed,NSString * _Nullable reason)
                   {
                       dispatch_semaphore_signal(self.YQLSApiActionSemaphore);
-                      block ? block(successed,reason) : nil;
+                      block ? block(succeed,reason) : nil;
                   }];
              } else {
                  // need to delete table first
                  NSString *deleteString = [NSString stringWithFormat:@"DROP TABLE %@",tableName];
                  [weakSelf doStorageAction:deleteString
-                                     block:^(BOOL successed, NSString * _Nullable reason)
+                                     block:^(BOOL succeed, NSString * _Nullable reason)
                   {
                       //delete finished
                       [weakSelf.keysDic setObject:keys forKey:tableName];
                       [weakSelf doStorageAction:creatString
-                                          block:^(BOOL successed,NSString * _Nullable reason)
+                                          block:^(BOOL succeed,NSString * _Nullable reason)
                        {
                            dispatch_semaphore_signal(self.YQLSApiActionSemaphore);
-                           block ? block(successed,reason) : nil;
+                           block ? block(succeed,reason) : nil;
                        }];
                   }];
              }
@@ -220,9 +220,9 @@
             sqlstring = [NSString stringWithFormat:@"delete from '%@' where %@",tableName,condition];
         }
         
-        [self doStorageAction:sqlstring block:^(BOOL successed, NSString * _Nullable reason) {
+        [self doStorageAction:sqlstring block:^(BOOL succeed, NSString * _Nullable reason) {
             dispatch_semaphore_signal(self.YQLSApiActionSemaphore);
-            block ? block(successed,reason) : nil;
+            block ? block(succeed,reason) : nil;
         }];
     }];
 }
@@ -253,11 +253,11 @@
             strAdd(sqlString, @"'");
         }
         strAdd(sqlString, @")");
-        [weakSelf doStorageAction:sqlString block:^(BOOL successed,
+        [weakSelf doStorageAction:sqlString block:^(BOOL succeed,
                                                     NSString * _Nullable reason)
          {
              dispatch_semaphore_signal(self.YQLSApiActionSemaphore);
-             block ? block(successed,reason) : nil;
+             block ? block(succeed,reason) : nil;
          }];
     }];
 }
@@ -302,11 +302,11 @@
         if (conditon) {
             strAddFormat(sqlString, @" where %@", conditon);
         }
-        [weakSelf doStorageAction:sqlString block:^(BOOL successed,
+        [weakSelf doStorageAction:sqlString block:^(BOOL succeed,
                                                     NSString * _Nullable reason)
          {
              dispatch_semaphore_signal(self.YQLSApiActionSemaphore);
-             block ? block(successed,reason) : nil;
+             block ? block(succeed,reason) : nil;
          }];
     }];
 }
@@ -329,7 +329,7 @@
 - (void)searchStorageWithTableName:(NSString *)tableName
                          condition:(nullable NSString *)condition
                               Keys:(nullable NSArray<NSString *>*)keysArr
-                             block:(nullable void(^)(BOOL successed,NSArray<YQLSSearchResultItem *> *_Nullable result))block {
+                             block:(nullable void(^)(BOOL succeed,NSArray<YQLSSearchResultItem *> *_Nullable result))block {
     __weak typeof (self) weakSelf = self;
     [self runOnApiQueue:^{
         [weakSelf runOnGCDQueue:^{
@@ -405,14 +405,14 @@
 
 - (void)countStorageWithTableName:(NSString *)tableName
                         condition:(nullable NSString *)condition
-                            block:(nullable void(^)(BOOL successed,NSUInteger count))block {
+                            block:(nullable void(^)(BOOL succeed,NSUInteger count))block {
     [self searchStorageWithTableName:tableName
                            condition:condition
                                 Keys:@[]
-                               block:^(BOOL successed,
+                               block:^(BOOL succeed,
                                        NSArray<YQLSSearchResultItem *> * _Nullable result)
      {
-         successed ? block(successed,result.count) : block(successed,0);
+         succeed ? block(succeed,result.count) : block(succeed,0);
      }];
 }
 

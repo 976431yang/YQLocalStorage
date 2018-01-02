@@ -33,14 +33,14 @@
 
 - (void)reloadFromLS;
 
-- (void)reloadFromLSWithBlock:(void(^)(BOOL successed,NSString *reason))block;
+- (void)reloadFromLSWithBlock:(void(^)(BOOL succeed,NSString *reason))block;
 
 - (void)deleteMyself;
 
-- (void)deleteMyselfWithBlock:(void(^)(BOOL successed,NSString *reason))block;
+- (void)deleteMyselfWithBlock:(void(^)(BOOL succeed,NSString *reason))block;
 
 - (void)updateData:(NSDictionary<NSString *,NSString *> *)data
-         withBlock:(void(^)(BOOL successed,NSString *reason))block;
+         withBlock:(void(^)(BOOL succeed,NSString *reason))block;
 
 @end
 
